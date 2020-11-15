@@ -1,6 +1,7 @@
 package com.anikulki.nasa.ui.pager
 
 import android.os.Bundle
+import android.transition.TransitionInflater
 import android.view.View
 import android.widget.Toast
 import androidx.fragment.app.Fragment
@@ -39,6 +40,13 @@ class ImagePagerFragment: Fragment(R.layout.fragment_image_pager) {
 
     private lateinit var adapter: ImagePagerAdapter
 
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+
+        val inflater = TransitionInflater.from(requireContext())
+        enterTransition = inflater.inflateTransition(R.transition.slide_right)
+    }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)

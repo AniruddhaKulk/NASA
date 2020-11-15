@@ -1,6 +1,7 @@
 package com.anikulki.nasa.ui.grid
 
 import android.os.Bundle
+import android.transition.TransitionInflater
 import android.view.View
 import android.widget.Toast
 import androidx.fragment.app.Fragment
@@ -35,6 +36,14 @@ class GridFragment: Fragment(R.layout.fragment_grid), NasaImageAdapter.OnItemCli
         get() = _binding!!
 
     private lateinit var adapter: NasaImageAdapter
+
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+
+        val inflater = TransitionInflater.from(requireContext())
+        exitTransition = inflater.inflateTransition(R.transition.fade)
+    }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
