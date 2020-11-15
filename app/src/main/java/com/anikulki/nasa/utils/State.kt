@@ -5,7 +5,7 @@ sealed class State <T> {
     /**
      * Returns [State.Loading] instance.
      */
-    class Loading<T>(val isLoading: Boolean): State<T>()
+    class Loading<T>(): State<T>()
 
     /**
      * Returns [State.Success] instance.
@@ -16,13 +16,13 @@ sealed class State <T> {
 
     /**
      * Returns [State.Error] instance.
-     * @param message Description of failure.
+     * @param errorMessage Description of failure.
      */
 
     data class Error<T>(val errorMessage: String): State<T>()
 
     companion object {
-        fun<T> loading(isLoading: Boolean) = Loading<T>(isLoading)
+        fun<T> loading() = Loading<T>()
 
         fun<T> success(data: T) = Success(data)
 

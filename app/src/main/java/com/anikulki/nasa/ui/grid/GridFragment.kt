@@ -1,12 +1,18 @@
 package com.anikulki.nasa.ui.grid
 
 import android.os.Bundle
+import android.util.Log
 import android.view.View
+import android.widget.Toast
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.GridLayoutManager
 import com.anikulki.nasa.R
 import com.anikulki.nasa.SharedViewModel
 import com.anikulki.nasa.databinding.FragmentGridBinding
+import com.anikulki.nasa.utils.State
+import com.anikulki.nasa.utils.ViewModelFactory
 
 class GridFragment: Fragment(R.layout.fragment_grid), NasaImageAdapter.OnItemClickListener {
 
@@ -36,6 +42,9 @@ class GridFragment: Fragment(R.layout.fragment_grid), NasaImageAdapter.OnItemCli
 
         _binding = FragmentGridBinding.bind(view)
 
+        sharedViewModel = ViewModelProvider(requireActivity(), ViewModelFactory())
+            .get(SharedViewModel::class.java)
+
         adapter = NasaImageAdapter(mutableListOf(), this)
 
         val gridLayoutManager = GridLayoutManager(requireContext(), 2)
@@ -45,6 +54,25 @@ class GridFragment: Fragment(R.layout.fragment_grid), NasaImageAdapter.OnItemCli
             recyclerView.adapter = adapter
         }
 
+        sharedViewModel.nasaImagesListLiveData.observe(viewLifecycleOwner, Observer {
+            when (it) {
+                is State.Loading -> {
+                    binding.progressBar.visibility = View.VISIBLE
+                    binding.recyclerView.visibility = View.GONE
+                }
+                is State.Success -> {
+                    binding.progressBar.visibility = View.GONE
+                    binding.recyclerView.visibility = View.VISIBLE
+                    adapter.setData(data = it.data)
+                }
+
+                is State.Error -> {
+                    binding.progressBar.visibility = View.GONE
+                    binding.recyclerView.visibility = View.VISIBLE
+                    Toast.makeText(requireContext(), it.errorMessage, Toast.LENGTH_LONG).show()
+                }
+            }
+        })
     }
 
     override fun onImageClick(position: Int) {
