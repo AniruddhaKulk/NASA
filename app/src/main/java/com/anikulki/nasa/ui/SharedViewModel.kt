@@ -5,6 +5,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.anikulki.nasa.model.NASAImagesItem
 import com.anikulki.nasa.repository.NasaRepository
+import com.anikulki.nasa.utils.Event
 import com.anikulki.nasa.utils.State
 
 class SharedViewModel(private val repository: NasaRepository): ViewModel(){
@@ -13,9 +14,9 @@ class SharedViewModel(private val repository: NasaRepository): ViewModel(){
     val nasaImagesListLiveData: LiveData<State<List<NASAImagesItem>>>
         get() = _nasaImagesListLiveData
 
-    private val _nasaImagePagerNavigation = MutableLiveData<Int>()
+    private val _nasaImagePagerNavigation = MutableLiveData<Event<Int>>()
 
-    val nasaImagePagerNavigation: LiveData<Int>
+    val nasaImagePagerNavigation: LiveData<Event<Int>>
         get() = _nasaImagePagerNavigation
 
     init {
@@ -33,6 +34,6 @@ class SharedViewModel(private val repository: NasaRepository): ViewModel(){
     }
 
     fun navigateToImagePagerScreen(currentPosition: Int){
-        _nasaImagePagerNavigation.value = currentPosition
+        _nasaImagePagerNavigation.value = Event(currentPosition)
     }
 }
