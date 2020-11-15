@@ -7,6 +7,7 @@ import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
+import androidx.viewpager2.widget.ViewPager2
 import com.anikulki.nasa.R
 import com.anikulki.nasa.databinding.FragmentImagePagerBinding
 import com.anikulki.nasa.ui.SharedViewModel
@@ -40,6 +41,15 @@ class ImagePagerFragment: Fragment(R.layout.fragment_image_pager) {
 
     private lateinit var adapter: ImagePagerAdapter
 
+    private val mAnimator = ViewPager2.PageTransformer { page, position ->
+        val absPos = Math.abs(position)
+        page.apply {
+            translationY = absPos * 500f
+            translationX = 0f
+            scaleX = 1f
+            scaleY = 1f
+        }
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -63,6 +73,10 @@ class ImagePagerFragment: Fragment(R.layout.fragment_image_pager) {
         adapter = ImagePagerAdapter(mutableListOf())
 
         binding.viewPager.adapter = adapter
+
+        binding.viewPager.setPageTransformer(mAnimator)
+
+        binding.viewPager.requestTransform()
 
         setupObservers()
 
