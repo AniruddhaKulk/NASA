@@ -11,6 +11,7 @@ import androidx.recyclerview.widget.GridLayoutManager
 import com.anikulki.nasa.R
 import com.anikulki.nasa.ui.SharedViewModel
 import com.anikulki.nasa.databinding.FragmentGridBinding
+import com.anikulki.nasa.utils.GridSpacingItemDecoration
 import com.anikulki.nasa.utils.State
 import com.anikulki.nasa.utils.ViewModelFactory
 
@@ -55,10 +56,11 @@ class GridFragment: Fragment(R.layout.fragment_grid), NasaImageAdapter.OnItemCli
 
         adapter = NasaImageAdapter(mutableListOf(), this)
 
-        val gridLayoutManager = GridLayoutManager(requireContext(), 2)
+        val gridLayoutManager = GridLayoutManager(requireContext(), 3)
 
         binding.apply {
             recyclerView.layoutManager = gridLayoutManager
+            recyclerView.addItemDecoration(GridSpacingItemDecoration(3, 8))
             recyclerView.adapter = adapter
         }
 
