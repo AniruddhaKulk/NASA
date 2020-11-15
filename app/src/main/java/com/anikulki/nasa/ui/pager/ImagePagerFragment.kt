@@ -2,11 +2,14 @@ package com.anikulki.nasa.ui.pager
 
 import android.os.Bundle
 import android.view.View
+import android.widget.Toast
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import com.anikulki.nasa.R
 import com.anikulki.nasa.databinding.FragmentImagePagerBinding
 import com.anikulki.nasa.ui.SharedViewModel
+import com.anikulki.nasa.utils.State
 import com.anikulki.nasa.utils.ViewModelFactory
 
 class ImagePagerFragment: Fragment(R.layout.fragment_image_pager) {
@@ -34,6 +37,8 @@ class ImagePagerFragment: Fragment(R.layout.fragment_image_pager) {
 
     private var currentPosition = 0
 
+    private lateinit var adapter: ImagePagerAdapter
+
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -47,13 +52,32 @@ class ImagePagerFragment: Fragment(R.layout.fragment_image_pager) {
         sharedViewModel = ViewModelProvider(requireActivity(), ViewModelFactory())
             .get(SharedViewModel::class.java)
 
+        adapter = ImagePagerAdapter(mutableListOf())
+
+        binding.viewPager.adapter = adapter
 
         setupObservers()
 
     }
 
     private fun setupObservers(){
-        //TODO
+        sharedViewModel.nasaImagesListLiveData.observe(viewLifecycleOwner, Observer {
+            when (it) {
+                is State.Loading -> {
+                    binding.viewPager.visibility = View.GONE
+                }
+                is State.Success -> {
+                    binding.viewPager.visibility = View.VISIBLE
+                    adapter.setData(data = it.data)
+                    binding.viewPager.setCurrentItem(currentPosition, false)
+                }
+
+                is State.Error -> {
+                    binding.viewPager.visibility = View.GONE
+                    Toast.makeText(requireContext(), it.errorMessage, Toast.LENGTH_LONG).show()
+                }
+            }
+        })
     }
 
 
