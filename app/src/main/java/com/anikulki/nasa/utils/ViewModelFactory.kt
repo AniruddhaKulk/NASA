@@ -2,7 +2,7 @@ package com.anikulki.nasa.utils
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
-import com.anikulki.nasa.SharedViewModel
+import com.anikulki.nasa.ui.SharedViewModel
 import com.anikulki.nasa.repository.NasaRepositoryImpl
 import java.lang.IllegalArgumentException
 

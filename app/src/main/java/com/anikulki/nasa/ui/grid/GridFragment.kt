@@ -8,7 +8,7 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.GridLayoutManager
 import com.anikulki.nasa.R
-import com.anikulki.nasa.SharedViewModel
+import com.anikulki.nasa.ui.SharedViewModel
 import com.anikulki.nasa.databinding.FragmentGridBinding
 import com.anikulki.nasa.utils.State
 import com.anikulki.nasa.utils.ViewModelFactory
@@ -53,6 +53,11 @@ class GridFragment: Fragment(R.layout.fragment_grid), NasaImageAdapter.OnItemCli
             recyclerView.adapter = adapter
         }
 
+        setupObservers()
+    }
+
+    private fun setupObservers(){
+
         sharedViewModel.nasaImagesListLiveData.observe(viewLifecycleOwner, Observer {
             when (it) {
                 is State.Loading -> {
@@ -75,7 +80,7 @@ class GridFragment: Fragment(R.layout.fragment_grid), NasaImageAdapter.OnItemCli
     }
 
     override fun onImageClick(position: Int) {
-
+        sharedViewModel.navigateToImagePagerScreen(position)
     }
 
     override fun onDestroy() {

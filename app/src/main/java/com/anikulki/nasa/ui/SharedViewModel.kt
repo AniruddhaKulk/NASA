@@ -1,4 +1,4 @@
-package com.anikulki.nasa
+package com.anikulki.nasa.ui
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
