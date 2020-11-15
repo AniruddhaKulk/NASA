@@ -1,7 +1,8 @@
-package com.anikulki.nasa
+package com.anikulki.nasa.ui
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import com.anikulki.nasa.R
 
 class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
