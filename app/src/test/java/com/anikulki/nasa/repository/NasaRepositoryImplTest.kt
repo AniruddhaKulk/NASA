@@ -40,7 +40,7 @@ class NasaRepositoryImplTest {
     }
 
 
-    fun enqueueResponse(fileName: String, headers: Map<String, String> = emptyMap()){
+    private fun enqueueResponse(fileName: String, headers: Map<String, String> = emptyMap()){
         val inputStream = javaClass.classLoader
             ?.getResourceAsStream("dummy-response/$fileName")
         val source = inputStream?.source()?.buffer() ?: return
